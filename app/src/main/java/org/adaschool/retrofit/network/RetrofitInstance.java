@@ -1,5 +1,9 @@
 package org.adaschool.retrofit.network;
 
+import android.content.SharedPreferences;
+
+import org.adaschool.retrofit.auth.JWTInterceptor;
+
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -10,12 +14,13 @@ public class RetrofitInstance {
     private static final String BASE_URL = "https://dog.ceo/";
     private static Retrofit retrofit;
 
-    public static Retrofit getRetrofitInstance() {
+    public static Retrofit getRetrofitInstance(SharedPreferences sharedPreferences) {
         if (retrofit == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
+                    .addInterceptor(new JWTInterceptor(sharedPreferences))
                     .writeTimeout(0, TimeUnit.MILLISECONDS)
                     .readTimeout(2, TimeUnit.MINUTES)
                     .connectTimeout(1, TimeUnit.MINUTES).build();

@@ -4,11 +4,12 @@ import org.adaschool.retrofit.network.dto.BreedsListDto;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface DogApiService {
     @GET("api/breeds/list/all")
     Call<BreedsListDto> getAllBreeds();
 
-    @GET("api/breeds/image/random")
-    Call<BreedsListDto> getRandomBreedImg();
+    @GET("api/breeds/{breed}/random")
+    Call<BreedsListDto> getBreedImages(@Path("breed") String breed);
 }
